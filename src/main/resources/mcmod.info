@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "${modid}",
+    "name": "Vend Addons",
+    "description": "A skyblock utility mod.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://github.com/endlesssb/VendAddons-Forge",
+    "updateUrl": "",
+    "authorList": [
+      "EndlessSB"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
