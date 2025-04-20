@@ -25,8 +25,10 @@ object SlayerOverlay {
         // Timer to refresh Slayer XP every 60 seconds
         Timer().scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
-                lastUsername?.let {
-                    lookup(it)
+                val username = Minecraft.getMinecraft().session?.username
+                if (username != null) {
+                    lastUsername = username
+                    lookup(username)
                 }
             }
         }, 0, 60000)
@@ -36,9 +38,11 @@ object SlayerOverlay {
         activeSlayer = slayer.lowercase()
         sessionKills = 0
         sessionStart = null
-        username?.let {
-            lastUsername = it
-            lookup(it)
+
+        val name = username ?: Minecraft.getMinecraft().session?.username
+        if (name != null) {
+            lastUsername = name
+            lookup(name)
         }
     }
 
@@ -84,13 +88,12 @@ object SlayerOverlay {
             else -> 500
         }
 
-        val oldXP = xpMap[slayer.lowercase()]?.toIntOrNull() ?: 0
+        val oldXP = xpMap[slayer.lowercase()]?.replace(",", "")?.toIntOrNull() ?: 0
         xpMap[slayer.lowercase()] = (oldXP + baseXP).toString()
     }
 
-
     private fun getHourlyKills(): String {
-        if (sessionStart == null || sessionKills == 0) return "0"
+        if (sessionStart == null || sessionKills == 0) return "0.0"
         val elapsed = (System.currentTimeMillis() - sessionStart!!) / 1000.0 / 3600.0
         return String.format("%.1f", sessionKills / elapsed)
     }
@@ -103,21 +106,22 @@ object SlayerOverlay {
 
         val mc = Minecraft.getMinecraft()
         val x = 10f
-        val y = 150f
+        var y = 150f
 
         val displayText = when {
             activeSlayer == null -> "§7Please run §e/vslayeroverlay <slayer>"
             else -> {
-                val xp = xpMap[activeSlayer] ?: "0"
-                "$ExampleMod.prefix §6${activeSlayer!!.replaceFirstChar { it.uppercaseChar() }} > Slayer XP: §b$xp"
+                val xp = xpMap[activeSlayer]?.replace(",", "")?.toIntOrNull()?.let { "%,d".format(it) } ?: "0"
+                "§6Vend > ${activeSlayer!!.replaceFirstChar { it.uppercaseChar() }} > Slayer XP: §b$xp"
             }
         }
 
         mc.fontRendererObj.drawString(displayText, x, y, 0xFFFFFF, true)
 
-        if (killsPerHourEnabled && sessionKills > 0) {
+        if (killsPerHourEnabled && sessionKills > 0 && activeSlayer != null) {
+            y += 12f
             val rateText = "§7Slayer kills/hour: §a${getHourlyKills()}"
-            mc.fontRendererObj.drawString(rateText, x, y + 12f, 0xFFFFFF, true)
+            mc.fontRendererObj.drawString(rateText, x, y, 0xFFFFFF, true)
         }
     }
 }
