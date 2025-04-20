@@ -1,23 +1,25 @@
-package VendAddons.commands
+package VendAddons.Features.Fishing
 
+import VendAddons.ExampleMod
+import VendAddons.utils.TextUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.client.settings.KeyBinding
-import net.minecraft.command.CommandException
-import net.minecraft.command.ICommandSender
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.TickEvent
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
-import VendAddons.utils.TextUtils
 
-private var fishControls: Boolean = false
+object FishControls {
 
-private var originalUseItemKey: Int = -1
-private var originalJumpKey: Int = -1
-private var originalSensitivity: Float = Minecraft.getMinecraft().gameSettings.mouseSensitivity
+    private var fishControls: Boolean = false
 
-class FishCommand : ClientCommandBase("fishcontrols") {
+    private var originalUseItemKey: Int = -1
+    private var originalJumpKey: Int = -1
+    private var originalSensitivity: Float = Minecraft.getMinecraft().gameSettings.mouseSensitivity
 
-    @Throws(CommandException::class)
-    override fun processCommand(sender: ICommandSender, args: Array<String>) {
+    fun toggle() {
         val mc = Minecraft.getMinecraft()
         val settings = mc.gameSettings
 
@@ -35,7 +37,6 @@ class FishCommand : ClientCommandBase("fishcontrols") {
             jumpKey.keyCode = -100 + Mouse.getButtonIndex("BUTTON1") // Right click = -99
 
             KeyBinding.resetKeyBindingArrayAndHash()
-
             settings.mouseSensitivity = 0.0f
             fishControls = true
 
@@ -46,11 +47,18 @@ class FishCommand : ClientCommandBase("fishcontrols") {
             jumpKey.keyCode = originalJumpKey
 
             KeyBinding.resetKeyBindingArrayAndHash()
-
             settings.mouseSensitivity = originalSensitivity
             fishControls = false
 
             TextUtils.info("§6§l [Vend] FishControls Disabled", false)
+        }
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    fun onTick(event: TickEvent.ClientTickEvent) {
+        if (ExampleMod.Companion.FarmControlsKeybind.isPressed) {
+            toggle()
         }
     }
 }

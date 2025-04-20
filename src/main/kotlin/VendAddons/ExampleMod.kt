@@ -1,19 +1,28 @@
 package VendAddons
 
+import FeatureToggleCommand
 import SkillsCommand
+import VendAddons.Features.Dungeones.PartyFinderChatListener
+import VendAddons.Features.Fishing.FishControls
 import net.minecraft.client.Minecraft
-import net.minecraft.init.Blocks
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
-import net.minecraft.client.renderer.GlStateManager
 import VendAddons.commands.*
 import VendAddons.utils.TextUtils
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.common.MinecraftForge
+import net.minecraft.client.settings.KeyBinding
+import net.minecraftforge.fml.client.registry.ClientRegistry
+import org.lwjgl.input.Keyboard
+import VendAddons.config.config
+import VendAddons.Features.Slayers.SlayerOverlay
+import VendAddons.Features.Slayers.SlayerOverlayChatListener
 
 @Mod(modid = "VendAddons", useMetadata = true)
 class ExampleMod {
+
+
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {
         try {
@@ -23,25 +32,32 @@ class ExampleMod {
         } catch (e: java.io.IOException) {
             throw java.lang.RuntimeException(e)
         }
-
-        println("Dirt: ${Blocks.dirt.unlocalizedName}")
-        // Below is a demonstration of an access-transformed class access.
-        println("Color State: " + GlStateManager.Color());
     }
 
-
-
     @Mod.EventHandler
-    fun preinnit(event: FMLPreInitializationEvent) { // This will occur on preinit
+    fun preinit(event: FMLPreInitializationEvent) { // This will occur on preinit
+        // Initialize Config
+        config.init()
+
+        // Register Keybind
+        FarmControlsKeybind = KeyBinding("key.vendaddons.FarmControls", Keyboard.KEY_L, "key.categories.misc")
+        ClientRegistry.registerKeyBinding(FarmControlsKeybind)
+
+        // Register ClientCommandHandler easily
         val cch = ClientCommandHandler.instance
+
+        // Register Feature Toggle Command
+        cch.registerCommand(FeatureToggleCommand())
+
         // Register the help command
         cch.registerCommand(HelpCommand())
         // Register Fish Controls
-        cch.registerCommand(FishCommand())
+        cch.registerCommand(FishControlsCommand())
         // API COMMANDS
         cch.registerCommand(SkillsCommand())
-    }
 
+        cch.registerCommand(SlayerOverlayCommand())
+    }
     @Mod.EventHandler // More stuff I used from dulkir [I am learning kotlin still so it's been a bit of a guide to me]
     fun onInit(event: FMLInitializationEvent) {
         // REGISTER Classes and such HERE
@@ -49,9 +65,21 @@ class ExampleMod {
         mcBus.register(this)
 
         mcBus.register(TextUtils)
+
+        mcBus.register(FishControls)
+
+        mcBus.register(SlayerOverlay)
+
+        mcBus.register(PartyFinderChatListener)
+
+        mcBus.register(SlayerOverlayChatListener)
     }
 
     companion object {
         val mc: Minecraft = Minecraft.getMinecraft()
+
+        lateinit var FarmControlsKeybind: KeyBinding
+
+        var prefix = "§6§l[Vend] "
     }
 }

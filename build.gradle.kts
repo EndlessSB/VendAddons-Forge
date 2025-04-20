@@ -30,7 +30,7 @@ loom {
         "client" {
             // If you don't want mixins, remove these lines
             property("mixin.debug", "true")
-            arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
+            arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker", "devauth.enabled")
         }
     }
     runConfigs {
@@ -86,6 +86,7 @@ dependencies {
     mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
+    implementation("gg.essential:universalcraft-standalone:401") // Replace with real version
     implementation("gg.essential:vigilance:306")
 
     modImplementation("gg.essential:universalcraft-1.8.9-forge:401")
@@ -160,6 +161,9 @@ tasks.shadowJar {
 
     // If you want to include other dependencies and shadow them, you can relocate them in here
     fun relocate(name: String) = relocate(name, "$baseGroup.deps.$name")
+    relocate("gg.essential.vigilance", "VendAddons.vigilance")
+    relocate("gg.essential.elementa", "VendAddons.elementa")
+    relocate("gg.essential.universalcraft", "VendAddons.universalcraft")
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)
