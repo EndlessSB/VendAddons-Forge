@@ -1,3 +1,5 @@
+package VendAddons.commands
+
 import VendAddons.commands.ClientCommandBase
 import VendAddons.utils.TextUtils
 import com.google.gson.JsonObject

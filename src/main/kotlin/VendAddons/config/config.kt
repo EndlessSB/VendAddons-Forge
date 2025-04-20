@@ -12,7 +12,8 @@ object config {
     private val defaultSettings: MutableMap<String, Boolean> = mutableMapOf(
         "PartyFinderLookup" to false,
         "SlayerXPOverlay" to false,
-        "SlayerKillsPerHour" to false
+        "SlayerKillsPerHour" to false,
+        "FishingXPOverlay" to false
     )
 
     private var settings: MutableMap<String, Boolean> = defaultSettings.toMutableMap()

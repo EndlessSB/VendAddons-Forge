@@ -21,6 +21,7 @@ object PartyFinderLookup {
             var non_mm_comps = -1
             var mm_total_comps = -1
             var mp = -1
+            var secrets = -1
 
             try {
                 val url = URL(catainfourl)
@@ -37,6 +38,7 @@ object PartyFinderLookup {
                 cata = json.get("catacombs_lvl").asInt
                 non_mm_comps = json.get("Catacombs_Total_comps").asInt
                 mm_total_comps = json.get("Matermode_Total_comps").asInt
+                secrets = json.get("secrets").asInt
             } catch (e: Exception) {
                 TextUtils.info("§cFailed to fetch Catainfo for $username", false)
                 e.printStackTrace()
@@ -59,8 +61,12 @@ object PartyFinderLookup {
                 TextUtils.info("§cFailed to Fetch MP for $username")
                 e.printStackTrace()
             }
-
-            TextUtils.info("$username | Cata LVL: $cata | MP: $mp | Non-MM Comps: $non_mm_comps | MM Comps: $mm_total_comps")
+            TextUtils.info("Dungeon Stats: $username")
+            TextUtils.info("§cCata Lvl: $cata")
+            TextUtils.hover("Collections", "§bNon MM: $non_mm_comps | MM: $mm_total_comps")
+            TextUtils.info("§2Secrets: $secrets")
+            TextUtils.info("§dMagical Power: $mp")
+            TextUtils.clickableButton("§c[KICK]", "p kick $username", "§cKick $username")
         }.start()
     }
 }

@@ -48,7 +48,7 @@ object SlayerOverlay {
 
     fun lookup(username: String) {
         val url = URL("https://api.vaje.uk/skyblock/slayer?name=$username")
-
+        if (!(config.check.getOrDefault("SlayerXpOverlay", false))) return
         Thread {
             try {
                 val connection = url.openConnection() as HttpURLConnection
@@ -67,7 +67,6 @@ object SlayerOverlay {
                 xpMap["wolf"] = json.get("wolf_xp")?.asString ?: "0"
                 xpMap["zombie"] = json.get("zombie_xp")?.asString ?: "0"
 
-                TextUtils.info("§aSlayer XP updated for $username", false)
 
             } catch (e: Exception) {
                 TextUtils.info("§cFailed to fetch Slayer XP for $username", false)
@@ -112,7 +111,7 @@ object SlayerOverlay {
             activeSlayer == null -> "§7Please run §e/vslayeroverlay <slayer>"
             else -> {
                 val xp = xpMap[activeSlayer]?.replace(",", "")?.toIntOrNull()?.let { "%,d".format(it) } ?: "0"
-                "§6Vend > ${activeSlayer!!.replaceFirstChar { it.uppercaseChar() }} > Slayer XP: §b$xp"
+                "§6Vend > ${activeSlayer!!.replaceFirstChar { it.uppercaseChar() }} Slayer XP: §b$xp"
             }
         }
 

@@ -1,8 +1,7 @@
 package VendAddons
 
-import FeatureToggleCommand
-import SkillsCommand
-import VendAddons.Features.Dungeones.PartyFinderChatListener
+import VendAddons.commands.FeatureToggleCommand
+import VendAddons.commands.SkillsCommand
 import VendAddons.Features.Fishing.FishControls
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Mod
@@ -17,7 +16,9 @@ import net.minecraftforge.fml.client.registry.ClientRegistry
 import org.lwjgl.input.Keyboard
 import VendAddons.config.config
 import VendAddons.Features.Slayers.SlayerOverlay
-import VendAddons.Features.Slayers.SlayerOverlayChatListener
+import VendAddons.commands.StatsCommand
+import VendAddons.Features.Fishing.FishingXPOverlay
+import VendAddons.utils.ChatListeners
 
 @Mod(modid = "VendAddons", useMetadata = true)
 class ExampleMod {
@@ -57,6 +58,8 @@ class ExampleMod {
         cch.registerCommand(SkillsCommand())
 
         cch.registerCommand(SlayerOverlayCommand())
+
+        cch.registerCommand(StatsCommand())
     }
     @Mod.EventHandler // More stuff I used from dulkir [I am learning kotlin still so it's been a bit of a guide to me]
     fun onInit(event: FMLInitializationEvent) {
@@ -70,9 +73,10 @@ class ExampleMod {
 
         mcBus.register(SlayerOverlay)
 
-        mcBus.register(PartyFinderChatListener)
+        mcBus.register(ChatListeners)
 
-        mcBus.register(SlayerOverlayChatListener)
+        mcBus.register(FishingXPOverlay)
+
     }
 
     companion object {
