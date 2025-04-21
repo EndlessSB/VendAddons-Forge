@@ -13,7 +13,8 @@ object config {
         "PartyFinderLookup" to false,
         "SlayerXPOverlay" to false,
         "SlayerKillsPerHour" to false,
-        "FishingXPOverlay" to false
+        "FishingXPOverlay" to false,
+        "RareDropsOverlay" to false
     )
 
     private var settings: MutableMap<String, Boolean> = defaultSettings.toMutableMap()

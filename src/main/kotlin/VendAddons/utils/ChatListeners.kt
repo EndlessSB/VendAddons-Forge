@@ -6,6 +6,7 @@ import VendAddons.config.config
 import net.minecraft.util.EnumChatFormatting
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import VendAddons.Features.Misc.RareDropsOverlay
 
 object ChatListeners {
 
@@ -26,6 +27,13 @@ object ChatListeners {
             TextUtils.info("§aLooking Up stats of player: $username", true)
             PartyFinderLookup.lookup(username)
         }
+        // Slayer Drops
+        if (message == "[RARE DROP] WARDEN HEART") {
+            RareDropsOverlay.announceDrop("§dWARDEN HEART", "+130m")
+        }
+
+
+
     }
 
 }

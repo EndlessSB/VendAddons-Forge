@@ -19,6 +19,7 @@ import VendAddons.Features.Slayers.SlayerOverlay
 import VendAddons.commands.StatsCommand
 import VendAddons.Features.Fishing.FishingXPOverlay
 import VendAddons.utils.ChatListeners
+import VendAddons.Features.Misc.RareDropsOverlay
 
 @Mod(modid = "VendAddons", useMetadata = true)
 class ExampleMod {
@@ -61,6 +62,9 @@ class ExampleMod {
 
         cch.registerCommand(StatsCommand())
     }
+
+
+
     @Mod.EventHandler // More stuff I used from dulkir [I am learning kotlin still so it's been a bit of a guide to me]
     fun onInit(event: FMLInitializationEvent) {
         // REGISTER Classes and such HERE
@@ -76,6 +80,8 @@ class ExampleMod {
         mcBus.register(ChatListeners)
 
         mcBus.register(FishingXPOverlay)
+
+        mcBus.register(RareDropsOverlay)
 
     }
 
