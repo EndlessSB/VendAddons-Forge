@@ -19,6 +19,11 @@ object config {
 
     private var settings: MutableMap<String, Boolean> = defaultSettings.toMutableMap()
 
+    // Function to get the default settings
+    fun getDefaultSettings(): MutableMap<String, Boolean> {
+        return defaultSettings
+    }
+
     object check {
         fun get(option: String): Boolean? {
             return settings[option]
@@ -28,7 +33,6 @@ object config {
             return settings[option] ?: default
         }
     }
-
 
     object update {
         fun set(option: String, value: Boolean) {

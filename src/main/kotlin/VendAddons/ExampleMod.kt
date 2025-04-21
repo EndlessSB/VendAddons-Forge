@@ -20,6 +20,8 @@ import VendAddons.commands.StatsCommand
 import VendAddons.Features.Fishing.FishingXPOverlay
 import VendAddons.utils.ChatListeners
 import VendAddons.Features.Misc.RareDropsOverlay
+import VendAddons.Graphics.ConfigGuiScreen
+import VendAddons.commands.ConfigMenuCommand
 
 @Mod(modid = "VendAddons", useMetadata = true)
 class ExampleMod {
@@ -61,6 +63,8 @@ class ExampleMod {
         cch.registerCommand(SlayerOverlayCommand())
 
         cch.registerCommand(StatsCommand())
+
+        cch.registerCommand(ConfigMenuCommand())
     }
 
 
