@@ -14,7 +14,8 @@ object config {
         "SlayerXPOverlay" to false,
         "SlayerKillsPerHour" to false,
         "FishingXPOverlay" to false,
-        "RareDropsOverlay" to false
+        "RareDropsOverlay" to false,
+        "HotSpotAnnouncer" to false
     )
 
     private var settings: MutableMap<String, Boolean> = defaultSettings.toMutableMap()

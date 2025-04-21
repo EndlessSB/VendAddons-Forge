@@ -22,6 +22,7 @@ import VendAddons.utils.ChatListeners
 import VendAddons.Features.Misc.RareDropsOverlay
 import VendAddons.Graphics.ConfigGuiScreen
 import VendAddons.commands.ConfigMenuCommand
+import VendAddons.Features.Fishing.HotSpotAnnouncer
 
 @Mod(modid = "VendAddons", useMetadata = true)
 class ExampleMod {
@@ -86,6 +87,8 @@ class ExampleMod {
         mcBus.register(FishingXPOverlay)
 
         mcBus.register(RareDropsOverlay)
+
+        mcBus.register(HotSpotAnnouncer)
 
     }
 
