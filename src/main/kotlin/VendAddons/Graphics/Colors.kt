@@ -1,6 +1,7 @@
-package me.odinmain.utils.ui
+package VendAddons.Graphics
 
-import me.odinmain.utils.Color
+import VendAddons.utils.Color
+// Stolen From ODIN :)
 
 /**
  * Object which contains a list of [Colors][Color] representing color codes in Minecraft.
